@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
+
+    <link href="https://vjs.zencdn.net/5.4.6/video-js.min.css" rel="stylesheet">
+
+    <link rel="icon" href="https://data.apksum.com/cb/com.jetfuel.colormeme/10.0/icon.png">
+
+    <title id="titlte">BypassTube</title>
+</head>
+
+<body>
+    <br>
+
+    <div id="start">
+        <h1><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/949f6d11-fa52-4894-8185-e25e5d510790/de485mx-a03a4051-d767-4ae4-b2e8-3af5d259da69.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk0OWY2ZDExLWZhNTItNDg5NC04MTg1LWUyNWU1ZDUxMDc5MFwvZGU0ODVteC1hMDNhNDA1MS1kNzY3LTRhZTQtYjJlOC0zYWY1ZDI1OWRhNjkuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.vRVu1pVqZumkTpPWiJ2zPS72H_E74lMfNI9r2WTMOgA"
+                alt="" style="width: 65px; height: 65px; vertical-align: middle;"> BypassTube</h1>
+        <br>
+
+        <div style="display: flex; flex-direction: row;">
+            <input id="url" type="text" placeholder="Youtube URL..." style="width: 43vw;">
+            <button id="loadbtn" onclick="apisend()">Load Video</button>
+        </div>
+    </div>
+    <center>
+        <div id="loading" style="display: none;">
+            <img src="https://media1.tenor.com/images/e90e6ced05e7e96a17cf66866b4031cd/tenor.gif?itemid=16368928"
+                style="border-radius: 10px;" alt="">
+            <br>
+            <span>Getting Video...</span>
+        </div>
+    </center>
+
+    <br>
+    <hr>
+
+    <div>
+        <p><a target="_blank" href="https://github.com/Guuzzeji/BypassTube">Source Code</a></p>
+        <p>Created by <a target="_blank" href="https://github.com/Guuzzeji">Guuzzeji</a></p>
+        <p>Email: <a href="mailto:gabe.business.code@outlook.com">gabe.business.code@outlook.com</a></p>
+        <p>Donate with BTC: bc1qr03fk294qe6nmqau5en4e7slnrmfft6jajh7vq</p>
+        <p>Donate with ETH: 0x407dBd079edDa61f97AFa6Bc98887228435ea85C</p>
+    </div>
+
+    <script>
+        let start = document.getElementById('start')
+        let loading = document.getElementById('loading')
+
+        document.getElementById("url").addEventListener('keydown', function (e) {
+            if (e.keyCode === 13) {
+                document.getElementById('loadbtn').click()
+            }
+        })
+
+        async function apisend() {
+            let input = document.getElementById("url").value.trim()
+            let vid_id = input.replace('https://www.youtube.com/watch?v=', "")
+
+            if (vid_id.search('&list=') != -1) {
+                vid_id = vid_id.slice(0, vid_id.indexOf('&list='))
+            }
+
+            if (vid_id == '' || vid_id == null) {
+
+                alert('Error With URL')
+
+                return
+            }
+
+            console.log(vid_id)
+
+            start.style.display = 'none'
+            loading.style.display = 'block'
+
+            await fetch('/api/dl/' + vid_id, {
+                method: "POST",
+            }).then(function (res) {
+                console.log(res)
+                return res.json()
+            }).then(function (data) {
+                if (data.error == undefined) {
+                    let url = window.location.href + data.url
+                    window.location.replace(url)
+                } else {
+                    alert('Could Not Get Video, Check URL')
+                    start.style.display = 'block'
+                    loading.style.display = 'none'
+                }
+            }).catch(function () {
+                alert('ERROR WITH URL')
+                window.location.reload()
+            })
+        }
+
+    </script>
+
+</body>
+
+</html>
