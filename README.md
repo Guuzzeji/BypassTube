@@ -6,11 +6,11 @@
 </p>
 
 <p>
-Link To Site: [Link Go Here]
+An expressjs and ytdl-core project that allows you to bypass some of YouTube's restrictions or office level internet restrictions.
 </p>
 
 <p>
-An expressjs and ytdl-core project that allows you to bypass some of YouTube's restrictions or office level internet restrictions.
+Link To Site: [Link Go Here]
 </p>
 
 <br>
