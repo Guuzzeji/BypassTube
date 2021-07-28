@@ -16,13 +16,18 @@ let videosDB = db.addCollection('videos');
 const app = express();
 app.set('view engine', 'ejs');
 
-//! Use for local run server
-//* Clean Db folder on Start
-let video_folder = fs.readdirSync('./tmp');
-if (video_folder != []) {
-    for (let x = 0; x < video_folder.length; x++) {
-        if (video_folder[x].endsWith('.mp4')) {
-            fs.unlinkSync(path.join(__dirname, '/tmp/', video_folder[x]));
+//! Create tmp file
+if (!fs.existsSync('./tmp')) {
+    fs.mkdirSync('./tmp');
+} else {
+    //! Use for local run server
+    //* Clean Db folder on Start
+    let video_folder = fs.readdirSync('./tmp');
+    if (video_folder != []) {
+        for (let x = 0; x < video_folder.length; x++) {
+            if (video_folder[x].endsWith('.mp4')) {
+                fs.unlinkSync(path.join(__dirname, '/tmp/', video_folder[x]));
+            }
         }
     }
 }
